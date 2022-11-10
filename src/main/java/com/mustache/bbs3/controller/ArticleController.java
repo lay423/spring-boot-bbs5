@@ -37,19 +37,36 @@ public class ArticleController {
         return "articles/list";
     }
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/articles/list";
+    }
+
     @GetMapping("/{id}")
-    public String selectSingle(@PathVariable Long id, Model model){
+    public String selectSingle(@PathVariable Long id, Model model) {
         Optional<Article> optionalArticle = articleRepository.findById(id);
         log.info(optionalArticle.get().getTitle());
-        if(!optionalArticle.isEmpty()){
+        if (!optionalArticle.isEmpty()) {
             System.out.println("성공");
             model.addAttribute("article", optionalArticle.get());
             return "articles/show";
-        }else{
+        } else {
             return "articles/error";
         }
     }
 
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable Long id, Model model) {
+        Optional<Article> optionalArticle = articleRepository.findById(id);
+        log.info(optionalArticle.get().getTitle());
+        if (optionalArticle.isPresent()) {
+            System.out.println("성공");
+            model.addAttribute("article", optionalArticle.get());
+            return "articles/edit";
+        } else {
+            return "articles/error";
+        }
+    }
 
     @PostMapping("")
     public String articles(ArticleDto articleDto) {
@@ -57,5 +74,12 @@ public class ArticleController {
         Article article = articleDto.toEntity();
         articleRepository.save(article);
         return "";
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable Long id, ArticleDto articleDto, Model model) {
+        Article article = articleRepository.save(articleDto.toEntity());
+        model.addAttribute("article", article);
+        return String.format("redirect:/articles/%d", article.getId());
     }
 }
