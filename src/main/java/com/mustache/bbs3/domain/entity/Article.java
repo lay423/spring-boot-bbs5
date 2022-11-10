@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
 public class Article {
     @Id
     @GeneratedValue
