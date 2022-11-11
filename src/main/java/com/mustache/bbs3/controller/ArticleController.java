@@ -73,7 +73,7 @@ public class ArticleController {
         log.info(articleDto.getTitle());
         Article article = articleDto.toEntity();
         articleRepository.save(article);
-        return "";
+        return "redirect:/articles/list";
     }
 
     @PostMapping("/{id}/update")
