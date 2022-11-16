@@ -32,6 +32,9 @@ class ArticleRestControllerTest {
 
     @MockBean
     ArticleService articleService;
+
+    @Autowired
+    ObjectMapper objectMapper;
     @Test
     void jsonResponse() throws Exception {
         //{"id":2,"title":"내 이름은","content":"황준하"}
@@ -47,7 +50,6 @@ class ArticleRestControllerTest {
                 .andExpect(jsonPath("$.title").value("내 이름은"))
                 .andDo(print());
 
-        verify(articleService).getArticle(articleId);
 
     }
 
@@ -56,9 +58,9 @@ class ArticleRestControllerTest {
     void add() throws Exception {
         ArticleAddRequest dto = new ArticleAddRequest("제목입니다.", "내용입니다.");
 
-        given(articleService.add(any())).willReturn(new ArticleAddResponse(1L, dto.getTitle(), dto.getContent()));
+        given(articleService.add(any(ArticleAddRequest.class))).willReturn(new ArticleAddResponse(1L, dto.getTitle(), dto.getContent()));
 
-        mockMvc.perform(post("/api/v1/articles/add")
+        mockMvc.perform(post("/api/v1/articles")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(new ArticleAddRequest("제목입니다.", "내용입니다.")))
                 )

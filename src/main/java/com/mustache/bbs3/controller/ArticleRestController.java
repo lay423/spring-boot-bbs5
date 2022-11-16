@@ -26,7 +26,7 @@ public class ArticleRestController {
     }
 
     @PostMapping
-    public ResponseEntity<ArticleAddResponse> addArticle(ArticleAddRequest dto) {
+    public ResponseEntity<ArticleAddResponse> addArticle(@RequestBody ArticleAddRequest dto) {
         System.out.println(dto.getTitle()+dto.getContent());
         ArticleAddResponse articleAddResponse = articleService.add(dto);
         System.out.println(articleAddResponse.getId()+articleAddResponse.getTitle()+articleAddResponse.getContent());
