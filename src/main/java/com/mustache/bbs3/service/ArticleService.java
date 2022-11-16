@@ -24,9 +24,12 @@ public class ArticleService {
         return article;
     }
 
-    public ArticleAddResponse add(ArticleAddRequest request) {
-        Article article = new Article(request.getTitle(), request.getContent());
-        articleRepository.save(article);
-        return new ArticleAddResponse(article.getId(), article.getTitle(), article.getContent());
+    public ArticleAddResponse add(ArticleAddRequest dto) {
+        Article article = dto.toEntity();
+        Article savedArticle = articleRepository.save(article);
+        return new ArticleAddResponse(savedArticle.getId(), savedArticle.getTitle(), savedArticle.getContent());
     }
 }
+
+
+

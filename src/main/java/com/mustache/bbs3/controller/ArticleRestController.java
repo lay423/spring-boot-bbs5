@@ -3,6 +3,7 @@ package com.mustache.bbs3.controller;
 import com.mustache.bbs3.domain.dto.ArticleAddRequest;
 import com.mustache.bbs3.domain.dto.ArticleAddResponse;
 import com.mustache.bbs3.domain.dto.ArticleDto;
+import com.mustache.bbs3.domain.dto.Match;
 import com.mustache.bbs3.domain.entity.Article;
 import com.mustache.bbs3.service.ArticleService;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,17 @@ public class ArticleRestController {
         return ResponseEntity.ok().body(article);
     }
 
-    @PostMapping("/add")
-    public ArticleAddResponse add(ArticleAddRequest request) {
-        ArticleAddResponse articleAddResponse = articleService.add(request);
-        return articleAddResponse;
+    @PostMapping
+    public ResponseEntity<ArticleAddResponse> addArticle(ArticleAddRequest dto) {
+        System.out.println(dto.getTitle()+dto.getContent());
+        ArticleAddResponse articleAddResponse = articleService.add(dto);
+        System.out.println(articleAddResponse.getId()+articleAddResponse.getTitle()+articleAddResponse.getContent());
+        return ResponseEntity.ok().body(articleAddResponse);
+    }
+
+    @PostMapping("/match")
+    public ResponseEntity<Match> addMatch(Match dto) {
+        System.out.println(dto.getName());
+        return ResponseEntity.ok().body(dto);
     }
 }
