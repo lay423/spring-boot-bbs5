@@ -45,6 +45,7 @@ public class HospitalController {
     public String list(@RequestParam String keyword, Model model, Pageable pageable) {
         Page<Hospital> hospitals = hospitalRepository.findByRoadNameAddressContaining(keyword, pageable);
         log.info("size:{}", hospitals.getSize());
+        model.addAttribute("keyword", keyword);
         model.addAttribute("hospitals", hospitals);
         model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
         model.addAttribute("next", pageable.next().getPageNumber());
